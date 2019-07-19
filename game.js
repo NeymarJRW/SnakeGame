@@ -11,11 +11,9 @@ function creatbg() {
   return divstr
 }
 gamecontent.innerHTML = creatbg()
-
 var timer; //蛇移动的定时器
 var reddiv = []; //记录除蛇的身体外剩余的方块,根据此数组来随机生成红块
 var bgdiv = []; //获取当前所有方块数组
-
 gamecontent.querySelectorAll('div').forEach(item => {
   bgdiv.push(item)
 });
@@ -75,8 +73,8 @@ var gamestart = {
         (this.snakebody[this.bodylen() - 1] % 20 == 1 && this.currentdirection == 'R') ||
         (this.snakebody[this.bodylen() - 1] % 20 == 0 && this.currentdirection == 'L')) {
         this.resetbgcolor()
-        clearInterval(timer)
         alert('游戏失败!')
+        clearInterval(timer)
       } else {
         this.getbodycolor();
         this.randomred()
