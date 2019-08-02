@@ -11,12 +11,34 @@ function creatbg() {
   return divstr
 }
 gamecontent.innerHTML = creatbg()
+
 var timer; //蛇移动的定时器
 var reddiv = []; //记录除蛇的身体外剩余的方块,根据此数组来随机生成红块
 var bgdiv = []; //获取当前所有方块数组
+
 gamecontent.querySelectorAll('div').forEach(item => {
   bgdiv.push(item)
 });
+//点击开始
+doc('.start').onclick = function () {
+  clearTimeout(timer)
+  gamestart.currentdirection = 'R' //当前移动方向
+  gamestart.currentrednum = 0//当前渲染出的红块序列号
+  gamestart.snakebody = [0, 1, 2] //蛇的身体数组
+  gamestart.movenum=1
+  gamestart.init()
+}
+doc('.pause').onclick = function () {
+  if (doc('.pause').value=='暂停'){
+      doc('.pause').value='继续'
+      clearTimeout(timer)
+  }else{
+      doc('.pause').value = '暂停'
+       gamestart.move()
+  }
+}
+
+//游戏主要方法
 var gamestart = {
   movenum: 1, //移动标量
   currentdirection: 'R', //当前移动方向
@@ -47,9 +69,10 @@ var gamestart = {
         bgdiv[item].style.background = 'green'
       }
     })
+bgdiv[this.snakebody[this.bodylen() - 1]].style.background = 'Lime'
   },
   //移动方法
-  move: function (i = 1) {
+  move: function () {
     let num = 0
     timer = setInterval(() => {
       this.snakebody.push(this.snakebody[this.bodylen() - 1] + this.movenum)
@@ -70,15 +93,15 @@ var gamestart = {
       }
       //判断左右是否出界
       else if (
-        (this.snakebody[this.bodylen() - 1] % 20 == 1 && this.currentdirection == 'R') ||
-        (this.snakebody[this.bodylen() - 1] % 20 == 0 && this.currentdirection == 'L')) {
+        (this.snakebody[this.bodylen() - 1] % 20 == 0 && this.currentdirection == 'R') ||
+        ((this.snakebody[this.bodylen() - 1] + 1) % 20 == 0 && this.currentdirection == 'L')) {
         this.resetbgcolor()
-        alert('游戏失败!')
         clearInterval(timer)
+        alert('游戏失败!')
       } else {
+
         this.getbodycolor();
         this.randomred()
-
       }
     }, 200)
   },
@@ -136,4 +159,3 @@ var gamestart = {
   }
 
 }
-gamestart.init()
