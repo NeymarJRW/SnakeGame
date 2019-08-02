@@ -1,5 +1,4 @@
 var doc = document.querySelector.bind(document);
-var docAll = document.querySelectorAll.bind(document);
 var log = console.log;
 var gamecontent = doc('.gamecontent');
 //创建游戏背景
@@ -50,7 +49,7 @@ var gamestart = {
   },
   //游戏开始
   init: function () {
-    $(document).on('keydown', this.keydown.bind(this))
+    window.onkeydown = this.keydown.bind(this)
     this.getbodycolor();
     this.move()
     this.getrandom()
